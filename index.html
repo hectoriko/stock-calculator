@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Beneficios de Acciones</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div class="app-wrapper">
+      
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2>Guardados</h2>
+        </div>
+        <div id="savedList" class="saved-list">
+          <!-- Saved items will be injected here -->
+          <div class="empty-state">No hay cálculos guardados</div>
+        </div>
+      </aside>
+
+      <div class="container">
+        <header>
+          <h1>Calculadora de Acciones</h1>
+          <p>Calcula tus beneficios netos de forma sencilla</p>
+        </header>
+
+        <main class="calculator-grid">
+          <div class="input-section">
+            <div class="input-group">
+              <label for="buyPrice">Precio de Compra (€)</label>
+              <input type="number" id="buyPrice" placeholder="0.00" step="0.01" min="0" />
+            </div>
+
+            <div class="input-group">
+              <label for="sellPrice">Precio de Venta (€)</label>
+              <input type="number" id="sellPrice" placeholder="0.00" step="0.01" min="0" />
+            </div>
+
+            <div class="input-group">
+              <label for="shares">Número de Acciones</label>
+              <input type="number" id="shares" placeholder="0" step="1" min="0" />
+            </div>
+
+            <div class="input-group">
+              <label for="taxRate">Impuestos (%)</label>
+              <input type="number" id="taxRate" placeholder="19" step="0.1" min="0" value="19" />
+            </div>
+
+            <button id="saveBtn" class="btn-primary">Guardar Cálculo</button>
+          </div>
+
+          <div class="results-section">
+            <div class="result-card total-buy-price">
+              <h3>Coste de compra total</h3>
+              <p id="totalBuyPrice">0.00 €</p>
+            </div>
+
+            <div class="result-card total-sell-price">
+              <h3>Coste de venta total</h3>
+              <p id="totalSellPrice">0.00 €</p>
+            </div>
+
+            <div class="result-card gross-profit">
+              <h3>Beneficio Bruto</h3>
+              <p id="grossProfit">0.00 €</p>
+            </div>
+
+            <div class="result-card tax-amount">
+              <h3>Impuestos</h3>
+              <p id="taxAmount">0.00 €</p>
+            </div>
+
+            <div class="result-card net-profit">
+              <h3>Beneficio Neto</h3>
+              <p id="netProfit">0.00 €</p>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
