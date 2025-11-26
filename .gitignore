@@ -1,0 +1,23 @@
+WARP.md
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+### IntelliJ ###
+.idea/
+*.iml
+
+### Visual Studio ###
+.vscode/
+.vscode/settings.json
+
+### Node.js ###
+
+# Log files
+*.log
+
+# NPM
+node_modules/
+yarn.lock
