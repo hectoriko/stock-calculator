@@ -414,3 +414,34 @@ header p {
         grid-template-columns: 1fr;
     }
 }
+
+/* Delete Button Styles */
+.saved-card {
+    position: relative;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 4px;
+    opacity: 0;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-btn:hover {
+    color: var(--danger-color);
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.saved-card:hover .delete-btn {
+    opacity: 1;
+}

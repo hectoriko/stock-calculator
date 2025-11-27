@@ -61,6 +61,18 @@ app.post("/api/calculations", async (req, res) => {
   }
 });
 
+app.delete("/api/calculations/:id", async (req, res) => {
+  try {
+    const deletedCalculation = await Calculation.findByIdAndDelete(req.params.id);
+    if (!deletedCalculation) {
+      return res.status(404).json({ message: "Calculation not found" });
+    }
+    res.json({ message: "Calculation deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Start Server
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

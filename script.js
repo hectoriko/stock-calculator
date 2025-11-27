@@ -119,6 +119,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  async function deleteCalculation(id, event) {
+    event.stopPropagation(); // Prevent card click event
+    
+    const confirmation = prompt("Escribe SI para confirmar el borrado:");
+    if (confirmation !== "SI") {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/calculations/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        renderSavedList();
+      } else {
+        alert("Error al borrar el cálculo");
+      }
+    } catch (error) {
+      console.error("Error deleting calculation:", error);
+      alert("Error de conexión");
+    }
+  }
+
   async function loadCalculation(id) {
     const saved = await getSavedCalculations();
     // MongoDB uses _id
@@ -152,10 +176,17 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="profit" style="color: ${item.data.netProfit >= 0 ? "var(--success-color)" : "var(--danger-color)"}">
                 ${formatCurrency(item.data.netProfit)}
             </div>
+            <button class="delete-btn" title="Eliminar cálculo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+            </button>
         `;
 
       // MongoDB uses _id
       card.addEventListener("click", () => loadCalculation(item._id));
+
+      const deleteBtn = card.querySelector(".delete-btn");
+      deleteBtn.addEventListener("click", (e) => deleteCalculation(item._id, e));
+
       savedList.appendChild(card);
     });
   }
