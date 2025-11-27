@@ -121,20 +121,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function deleteCalculation(id, event) {
     event.stopPropagation(); // Prevent card click event
-    
-    const confirmation = prompt("Escribe SI para confirmar el borrado:");
-    if (confirmation !== "SI") {
-      return;
-    }
 
     try {
       const response = await fetch(`/api/calculations/${id}`, {
         method: "DELETE",
       });
 
+      console.log("Delete response status:", response.status);
+      console.log("Delete response ok:", response.ok);
+
       if (response.ok) {
         renderSavedList();
       } else {
+        const errorData = await response.json();
+        console.error("Delete error:", errorData);
         alert("Error al borrar el cálculo");
       }
     } catch (error) {
@@ -185,7 +185,11 @@ document.addEventListener("DOMContentLoaded", () => {
       card.addEventListener("click", () => loadCalculation(item._id));
 
       const deleteBtn = card.querySelector(".delete-btn");
-      deleteBtn.addEventListener("click", (e) => deleteCalculation(item._id, e));
+      console.log("Attaching delete listener for:", item.name, "ID:", item._id);
+      deleteBtn.addEventListener("click", (e) => {
+        console.log("Delete button clicked for:", item._id);
+        deleteCalculation(item._id, e);
+      });
 
       savedList.appendChild(card);
     });

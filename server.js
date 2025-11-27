@@ -63,12 +63,16 @@ app.post("/api/calculations", async (req, res) => {
 
 app.delete("/api/calculations/:id", async (req, res) => {
   try {
+    console.log("DELETE request for ID:", req.params.id);
     const deletedCalculation = await Calculation.findByIdAndDelete(req.params.id);
+    console.log("Deleted calculation:", deletedCalculation);
     if (!deletedCalculation) {
+      console.log("Calculation not found");
       return res.status(404).json({ message: "Calculation not found" });
     }
     res.json({ message: "Calculation deleted" });
   } catch (err) {
+    console.error("Delete error:", err);
     res.status(500).json({ message: err.message });
   }
 });
