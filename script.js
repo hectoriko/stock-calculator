@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // --- DOM Elements ---
   const buyPriceInput = document.getElementById("buyPrice");
   const sellPriceInput = document.getElementById("sellPrice");
   const sharesInput = document.getElementById("shares");
@@ -16,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const inputs = [buyPriceInput, sellPriceInput, sharesInput, taxRateInput];
 
+  // --- Helper Functions ---
   function formatCurrency(amount) {
     return new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(amount);
   }
@@ -46,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (grossProfit < 0) {
       grossProfitDisplay.classList.add("negative");
       netProfitDisplay.classList.add("negative");
-      // Remove success color from net profit if negative
       netProfitDisplay.style.color = "var(--danger-color)";
     } else {
       grossProfitDisplay.classList.remove("negative");
@@ -63,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
-  // Saved Calculations Logic
+  // --- API & Persistence Logic ---
   async function getSavedCalculations() {
     try {
       const response = await fetch("/api/calculations");
@@ -153,13 +154,51 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Event Listeners
+  // --- Navigation Logic ---
+  const navItems = document.querySelectorAll(".nav-item");
+  const sectionsContainer = document.querySelector(".sections-container");
+  const sections = document.querySelectorAll(".section");
+
+  function switchSection(targetId) {
+    // Update Nav Items
+    navItems.forEach((item) => {
+      if (item.dataset.target === targetId) {
+        item.classList.add("active");
+      } else {
+        item.classList.remove("active");
+      }
+    });
+
+    // Update Sections and Container Transform
+    const targetSectionIndex = Array.from(sections).findIndex((section) => section.id === targetId);
+
+    if (targetSectionIndex !== -1) {
+      sectionsContainer.style.transform = `translateX(-${targetSectionIndex * 100}%)`;
+
+      sections.forEach((section) => {
+        if (section.id === targetId) {
+          section.classList.add("active");
+        } else {
+          section.classList.remove("active");
+        }
+      });
+    }
+  }
+
+  // --- Event Listeners ---
   inputs.forEach((input) => {
     input.addEventListener("input", calculate);
   });
 
   saveBtn.addEventListener("click", saveCalculation);
 
-  // Initial render
+  navItems.forEach((item) => {
+    item.addEventListener("click", () => {
+      const targetId = item.dataset.target;
+      switchSection(targetId);
+    });
+  });
+
+  // --- Initial Render ---
   renderSavedList();
 });
