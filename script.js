@@ -64,12 +64,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Saved Calculations Logic
-  function getSavedCalculations() {
-    const saved = localStorage.getItem("stockCalculations");
-    return saved ? JSON.parse(saved) : [];
+  async function getSavedCalculations() {
+    try {
+      const response = await fetch("/api/calculations");
+      if (!response.ok) throw new Error("Failed to fetch");
+      return await response.json();
+    } catch (error) {
+      console.error("Error loading calculations:", error);
+      return [];
+    }
   }
 
-  function saveCalculation() {
+  async function saveCalculation() {
     const currentData = calculate();
 
     // Don't save empty calculations
@@ -82,22 +88,35 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!name) return;
 
     const newCalculation = {
-      id: Date.now(),
       name: name,
       date: new Date().toLocaleDateString(),
       data: currentData,
     };
 
-    const saved = getSavedCalculations();
-    saved.unshift(newCalculation); // Add to top
-    localStorage.setItem("stockCalculations", JSON.stringify(saved));
+    try {
+      const response = await fetch("/api/calculations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newCalculation),
+      });
 
-    renderSavedList();
+      if (response.ok) {
+        renderSavedList();
+      } else {
+        alert("Error al guardar el cálculo");
+      }
+    } catch (error) {
+      console.error("Error saving calculation:", error);
+      alert("Error de conexión");
+    }
   }
 
-  function loadCalculation(id) {
-    const saved = getSavedCalculations();
-    const calculation = saved.find((item) => item.id === id);
+  async function loadCalculation(id) {
+    const saved = await getSavedCalculations();
+    // MongoDB uses _id
+    const calculation = saved.find((item) => item._id === id);
 
     if (calculation) {
       buyPriceInput.value = calculation.data.buyPrice;
@@ -108,8 +127,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function renderSavedList() {
-    const saved = getSavedCalculations();
+  async function renderSavedList() {
+    const saved = await getSavedCalculations();
     savedList.innerHTML = "";
 
     if (saved.length === 0) {
@@ -128,7 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
             </div>
         `;
 
-      card.addEventListener("click", () => loadCalculation(item.id));
+      // MongoDB uses _id
+      card.addEventListener("click", () => loadCalculation(item._id));
       savedList.appendChild(card);
     });
   }
