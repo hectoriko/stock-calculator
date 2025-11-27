@@ -248,6 +248,10 @@ header p {
     gap: 0.5rem;
 }
 
+.input-group.full-width {
+    grid-column: 1 / -1;
+}
+
 .input-group label {
     font-size: 0.85rem;
     font-weight: 500;
