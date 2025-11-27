@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   // --- DOM Elements ---
+  const calculationNameInput = document.getElementById("calculationName");
   const buyPriceInput = document.getElementById("buyPrice");
   const sellPriceInput = document.getElementById("sellPrice");
   const sharesInput = document.getElementById("shares");
@@ -85,8 +86,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const name = prompt("Nombre para este cálculo:");
-    if (!name) return;
+    const name = calculationNameInput.value.trim();
+    if (!name) {
+      alert("Por favor, introduce un nombre para el cálculo");
+      return;
+    }
 
     const newCalculation = {
       name: name,
@@ -105,6 +109,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (response.ok) {
         renderSavedList();
+        // Optional: Clear name after save? Or keep it? keeping it for now.
       } else {
         alert("Error al guardar el cálculo");
       }
@@ -120,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const calculation = saved.find((item) => item._id === id);
 
     if (calculation) {
+      calculationNameInput.value = calculation.name;
       buyPriceInput.value = calculation.data.buyPrice;
       sellPriceInput.value = calculation.data.sellPrice;
       sharesInput.value = calculation.data.shares;
