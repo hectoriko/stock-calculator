@@ -21,3 +21,6 @@ WARP.md
 # NPM
 node_modules/
 yarn.lock
+
+.env
+.DS_Store
