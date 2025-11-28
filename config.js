@@ -10,6 +10,9 @@ const API_BASE_URL = isProduction
 export const API_ENDPOINTS = {
   NOTES: `${API_BASE_URL}/api/notes`,
   NOTE_BY_ID: (id) => `${API_BASE_URL}/api/notes/${id}`,
+  OPERATIONS: `${API_BASE_URL}/api/operations`,
+  OPERATION_BY_ID: (id) => `${API_BASE_URL}/api/operations/${id}`,
+  CLOSE_OPERATION: (id) => `${API_BASE_URL}/api/operations/${id}/close`,
 };
 
 // Environment info (useful for debugging)

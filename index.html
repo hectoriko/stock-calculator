@@ -117,15 +117,83 @@
           </section>
 
           <section id="operations-section" class="section">
-            <div class="container">
-              <header>
-                <h1>Registrar operación</h1>
-              </header>
+            <div class="app-wrapper">
+              
+              <aside class="sidebar">
+                <div class="sidebar-header">
+                  <h2>Operaciones guardadas</h2>
+                </div>
+                <div id="savedOperationsList" class="saved-list">
+                  <div class="empty-state">No hay operaciones guardadas</div>
+                </div>
+              </aside>
+
+              <div class="container">
+                <header>
+                  <h1>Registrar operación</h1>
+                  <p>Registra tus operaciones de compra y venta</p>
+                </header>
+
+                <main class="calculator-grid">
+                  <div class="input-section">
+                    <div class="input-group full-width">
+                      <label for="operationName">Nombre de la Operación</label>
+                      <input type="text" id="operationName" placeholder="Mi operación" />
+                    </div>
+
+                    <div class="input-group full-width">
+                      <label for="purchaseDate">Fecha de Compra</label>
+                      <input type="date" id="purchaseDate" />
+                    </div>
+
+                    <div class="input-group">
+                      <label for="operationBuyPrice">Precio de Compra (€)</label>
+                      <input type="number" id="operationBuyPrice" placeholder="0.00" step="0.01" min="0" />
+                    </div>
+
+                    <div class="input-group full-width">
+                      <label for="operationShares">Número de Acciones</label>
+                      <input type="number" id="operationShares" placeholder="0" step="1" min="0" />
+                    </div>
+
+                    <button id="saveOperationBtn" class="btn-primary">Guardar Operación</button>
+                  </div>
+                </main>
+              </div>
             </div>
           </section>
         </div>
       </main>
     </div>
+
+    <!-- Close Operation Modal -->
+    <div id="closeOperationModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Cerrar Operación</h2>
+          <button class="modal-close" id="closeModalBtn">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <label for="modalSellDate">Fecha de Venta</label>
+            <input type="date" id="modalSellDate" />
+          </div>
+
+          <div class="input-group">
+            <label for="modalSellPrice">Precio de Venta (€)</label>
+            <input type="number" id="modalSellPrice" placeholder="0.00" step="0.01" min="0" />
+          </div>
+
+          <div class="input-group">
+            <label for="modalTaxRate">Impuestos (%)</label>
+            <input type="number" id="modalTaxRate" placeholder="19" step="0.1" min="0" value="19" />
+          </div>
+
+          <button id="confirmCloseBtn" class="btn-primary">Confirmar Cierre</button>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="script.js"></script>
   </body>
 </html>
