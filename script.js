@@ -1,3 +1,5 @@
+import { API_ENDPOINTS } from "./config.js";
+
 document.addEventListener("DOMContentLoaded", () => {
   // --- DOM Elements ---
   const calculationNameInput = document.getElementById("calculationName");
@@ -68,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- API & Persistence Logic ---
   async function getSavedCalculations() {
     try {
-      const response = await fetch("/api/calculations");
+      const response = await fetch(API_ENDPOINTS.NOTES);
       if (!response.ok) throw new Error("Failed to fetch");
       return await response.json();
     } catch (error) {
@@ -99,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const response = await fetch("/api/calculations", {
+      const response = await fetch(API_ENDPOINTS.NOTES, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -123,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     event.stopPropagation(); // Prevent card click event
 
     try {
-      const response = await fetch(`/api/calculations/${id}`, {
+      const response = await fetch(API_ENDPOINTS.NOTE_BY_ID(id), {
         method: "DELETE",
       });
 

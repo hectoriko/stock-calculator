@@ -19,7 +19,7 @@ mongoose
   .catch((err) => console.error("Could not connect to MongoDB:", err));
 
 // Schema
-const calculationSchema = new mongoose.Schema({
+const noteSchema = new mongoose.Schema({
   name: String,
   date: String,
   data: {
@@ -35,42 +35,42 @@ const calculationSchema = new mongoose.Schema({
   },
 });
 
-const Calculation = mongoose.model("Calculation", calculationSchema);
+const Note = mongoose.model("Note", noteSchema);
 
 // Routes
-app.get("/api/calculations", async (req, res) => {
+app.get("/api/notes", async (req, res) => {
   try {
-    const calculations = await Calculation.find().sort({ createdAt: -1 });
-    res.json(calculations);
+    const notes = await Note.find().sort({ createdAt: -1 });
+    res.json(notes);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-app.post("/api/calculations", async (req, res) => {
+app.post("/api/notes", async (req, res) => {
   try {
-    const newCalculation = new Calculation({
+    const newNote = new Note({
       name: req.body.name,
       date: req.body.date,
       data: req.body.data,
     });
-    const savedCalculation = await newCalculation.save();
-    res.status(201).json(savedCalculation);
+    const savedNote = await newNote.save();
+    res.status(201).json(savedNote);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-app.delete("/api/calculations/:id", async (req, res) => {
+app.delete("/api/notes/:id", async (req, res) => {
   try {
     console.log("DELETE request for ID:", req.params.id);
-    const deletedCalculation = await Calculation.findByIdAndDelete(req.params.id);
-    console.log("Deleted calculation:", deletedCalculation);
-    if (!deletedCalculation) {
-      console.log("Calculation not found");
-      return res.status(404).json({ message: "Calculation not found" });
+    const deletedNote = await Note.findByIdAndDelete(req.params.id);
+    console.log("Deleted note:", deletedNote);
+    if (!deletedNote) {
+      console.log("Note not found");
+      return res.status(404).json({ message: "Note not found" });
     }
-    res.json({ message: "Calculation deleted" });
+    res.json({ message: "Note deleted" });
   } catch (err) {
     console.error("Delete error:", err);
     res.status(500).json({ message: err.message });
